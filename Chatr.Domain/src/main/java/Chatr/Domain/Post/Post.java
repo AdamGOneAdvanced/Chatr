@@ -1,8 +1,11 @@
 package Chatr.Domain.Post;
 
+import Chatr.Domain.Comment.Comment;
 import Chatr.Domain.Entity;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
 public class Post {
@@ -11,7 +14,7 @@ public class Post {
 
     public Post(UUID id, String content, Date date) {
         entity = new Entity(id);
-        valueObject = new PostValueObject(content, date);
+        valueObject = new PostValueObject(content, date, null);
     }
 
     public void changeId(UUID id) {
@@ -22,20 +25,30 @@ public class Post {
         return entity.getId();
     }
 
-    public void changeContent(String content){
-        valueObject = new PostValueObject(content, valueObject.getDate());
+    public void changeContent(String content) {
+        valueObject = new PostValueObject(content, valueObject.getDate(), valueObject.getComments());
     }
 
-    public void changeDate(Date date){
-        valueObject = new PostValueObject(valueObject.getContent(), date);
+    public void changeDate(Date date) {
+        valueObject = new PostValueObject(valueObject.getContent(), date, valueObject.getComments());
     }
 
-    public String getContent(){
+    public void addComment(Comment comment) {
+        List<Comment> comments = valueObject.getComments();
+        comments.add(comment);
+        valueObject = new PostValueObject(valueObject.getContent(), valueObject.getDate(), comments);
+    }
+
+    public String getContent() {
         return valueObject.getContent();
     }
 
-    public Date getDate(){
+    public Date getDate() {
         return valueObject.getDate();
+    }
+
+    public List<Comment> getComments() {
+        return valueObject.getComments();
     }
 
     @Override

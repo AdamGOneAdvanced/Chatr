@@ -1,5 +1,6 @@
 package Chatr.Domain.Post;
 
+import Chatr.Domain.Comment.Comment;
 import org.junit.jupiter.api.Test;
 
 import java.util.Date;
@@ -134,7 +135,16 @@ class PostTest {
     }
 
     @Test
-    public void addCommentToPost() {
+    public void post_AddComment() {
+        // Given a post and a comment
+        Post post = new Post(null, "hi!", new Date());
+        Comment comment = new Comment(null, "hi!", new Date());
 
+        // When I add the comment to the post
+        post.addComment(comment);
+
+        // Then there should be a comment on the post
+        assertTrue(post.getComments().size() == 1);
+        assertTrue(post.getComments().contains(comment));
     }
 }
